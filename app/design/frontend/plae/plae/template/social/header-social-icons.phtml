@@ -1,0 +1,108 @@
+<!--Header social icons-->
+<?php $mediaUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);?>
+<ul class="hidden-xs social">
+    <li class="social-icon dropdown"> 
+        <a href="#" class="dropdown-toggle" id="facebook-social-dropdown-menu" onclick="plae.controllers.header.moreMenu.toggleSocialMenu('facebook')" data-toggle="dropdown">
+            <i class="fa fa-facebook-square fa-2x"></i>
+        </a>
+
+        <ul class="social facebook dropdown-menu">
+            <?php $customerLoggedIn = Mage::getSingleton('customer/session')->isLoggedIn();
+            if($customerLoggedIn) { ?>
+                <li class="header">
+                    <h4>
+                        <img class="level-up icon large" src="<?php echo $mediaUrl;?>cms/rewards/level-up.png"/>
+                        <span class="social-share-txt">LEVEL UP</span>
+                    </h4>
+                    <p class="social-share-txt">
+                        earn <strong>10 tokens</strong> for liking and sharing
+                    </p>
+                </li>
+                <li role="separator" class="divider"></li>
+                <?php
+            } else{
+                echo $this->getLayout()
+                    ->createBlock('cms/block')
+                    ->setBlockId('social_dropdown_header')->toHtml();
+            } ?>
+            <li class="share-button">
+                <div class="sweettooth-facebook-like sweettooth-social-button fb-like" style="overflow: hidden !important;" data-href="<?php echo Mage::helper('core/url')->getCurrentUrl(); ?>" data-layout="button" data-action="like" data-show-faces="true" data-share="false" data-colorscheme="dark"></div>
+            </li>
+            <li class="share-button">
+                <div class="sweettooth-facebook-share sweettooth-social-button fb-share-button" data-href="<?php Mage::helper('core/url')->getCurrentUrl(); ?>" data-layout="button" data-colorscheme="dark"></div>
+            </li>
+            <li class="visit-button">
+                <a href="http://facebook.com/plae" target="_blank" class="button"><i class="fa fa-facebook-square fa-lg" aria-hidden="true"></i> visit page</a>
+            </li>
+        </ul>
+    </li>
+    <li class="social-icon dropdown">
+        <a href="#" class="dropdown-toggle" id="pinterest-social-dropdown-menu" onclick="plae.controllers.header.moreMenu.toggleSocialMenu('pinterest')" data-toggle="dropdown">
+            <i class="fa fa-pinterest-square fa-2x"></i>
+        </a>
+        <ul class="social pinterest dropdown-menu">
+            <?php $customerLoggedIn = Mage::getSingleton('customer/session')->isLoggedIn();
+            if($customerLoggedIn) { ?>
+                <li class="header">
+                    <h4>
+                        <img class="level-up icon large" src="<?php echo $mediaUrl;?>cms/rewards/level-up.png"/>
+                        <span class="social-share-txt">LEVEL UP</span>
+                    </h4>
+                    <p class="social-share-txt">
+                        earn <strong>10 tokens</strong> for following us
+                    </p>
+                </li>
+                <li role="separator" class="divider"></li>
+                <?php
+            } else{
+                echo $this->getLayout()
+                    ->createBlock('cms/block')
+                    ->setBlockId('social_dropdown_header')->toHtml();
+            } ?>
+            <li class="share-button">
+                <a data-pin-do="buttonFollow" href="https://www.pinterest.com/goplae">follow GoPlae</a>
+            </li>
+            <li class="visit-button">
+                <a href="http://pinterest.com/goplae" target="_blank" class="button"><i class="fa fa-pinterest-square fa-lg" aria-hidden="true"></i> visit page</a>
+            </li>
+        </ul>
+    </li>
+    <li class="social-icon">
+        <a href="http://instagram.com/goplae" target="_blank">
+            <i class="fa fa-instagram fa-2x"></i>
+        </a>
+    </li>
+    <li class="social-icon">
+        <a href="http://youtube.com/goplae" target="_blank">
+            <i class="fa fa-youtube-square fa-2x"></i>
+        </a>
+    </li>
+    <li class="social-icon dropdown">
+        <a href="#" class="dropdown-toggle" id="referral-dropdown-menu" onclick="plae.controllers.header.moreMenu.toggleSocialMenu('referral')" data-toggle="dropdown">
+            <i class="fa fa-users fa-2x"></i>
+        </a>
+        <ul class="social referral dropdown-menu">
+            <?php $customerLoggedIn = Mage::getSingleton('customer/session')->isLoggedIn();
+            if($customerLoggedIn) { ?>
+                <li class="header">
+                    <h4>
+                        <img class="level-up icon large" src="<?php echo $mediaUrl;?>cms/rewards/level-up.png"/>
+                        <span class="social-share-txt">LEVEL UP</span>
+                    </h4>
+                    <p class="social-share-txt">
+                        earn <strong>500 tokens</strong> for referring a friend
+                    </p>
+                </li>
+                <li role="separator" class="divider"></li>
+                <?php
+            } else{
+                echo $this->getLayout()
+                    ->createBlock('cms/block')
+                    ->setBlockId('social_dropdown_header')->toHtml();
+            } ?>
+            <li class="share-button a-center">
+                <a href="<?php echo $this->getBaseUrl().'rewardsref/customer/index'; ?>" class="button"><i class="fa fa-users"></i> refer a friend</a>
+            </li>
+        </ul>
+    </li>
+</ul>

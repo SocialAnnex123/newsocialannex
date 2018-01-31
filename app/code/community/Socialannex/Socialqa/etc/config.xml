@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Socialannex_Socialqa>
+            <version>1.0</version>
+        </Socialannex_Socialqa>
+    </modules>
+    <global>
+        <helpers>
+            <socialqa>
+                <class>Socialannex_Socialqa_Helper</class>
+            </socialqa>
+        </helpers>
+		<blocks>
+             <socialqa>
+                <class>Socialannex_Socialqa_Block</class>
+             </socialqa>
+        </blocks>
+    </global>
+	 <adminhtml>
+		<routers>
+			<socialqa>
+				<use>admin</use>
+				<args>
+					<module>Socialannex_Socialqa</module>
+					<frontName>Socialannex</frontName>
+				</args>
+			</socialqa>
+        </routers>
+    </adminhtml>
+</config>

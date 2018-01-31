@@ -1,0 +1,397 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <satoolsconf translate="label">
+            <label>SocialAnnex</label>
+            <sort_order>150</sort_order>
+        </satoolsconf>
+    </tabs>
+    <sections>
+        <satools translate="label" module="adminhtml">
+            <label>Settings</label>
+            <tab>satoolsconf</tab>
+            <sort_order>10</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <sageneral translate="label">
+                    <label>General</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>30</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <text_field translate="label">
+                            <label>Site Id</label>
+                            <comment>Site Id with store view scope.</comment>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </text_field>
+                    </fields>
+                </sageneral>
+				<!--<general translate="label">
+     <label>Share and Save</label>
+     <sort_order>50</sort_order>
+     <show_in_default>1</show_in_default>
+     <show_in_website>1</show_in_website>
+     <show_in_store>1</show_in_store>
+     <fields>
+      <HomePageid>
+       <label>Home Page ID</label>
+       <frontend_type>text</frontend_type>
+       <sort_order>2</sort_order>
+       <show_in_default>1</show_in_default>
+       <show_in_website>1</show_in_website>
+       <show_in_store>1</show_in_store>
+      </HomePageid>
+      <ProductPageid>
+       <label>Product Page ID</label>
+       <frontend_type>text</frontend_type>
+       <sort_order>3</sort_order>
+       <show_in_default>1</show_in_default>
+       <show_in_website>1</show_in_website>
+       <show_in_store>1</show_in_store>
+      </ProductPageid>
+      <CategoryPageid>
+       <label>Category Page ID</label>
+       <frontend_type>text</frontend_type>
+       <sort_order>4</sort_order>
+       <show_in_default>1</show_in_default>
+       <show_in_website>1</show_in_website>
+       <show_in_store>1</show_in_store>
+      </CategoryPageid>
+      <OrderPageid>
+       <label>Order Page ID</label>
+       <frontend_type>text</frontend_type>
+       <sort_order>5</sort_order>
+       <show_in_default>1</show_in_default>
+       <show_in_website>1</show_in_website>
+       <show_in_store>1</show_in_store>
+      </OrderPageid>
+     </fields>
+    </general>-->
+	
+<satrackable translate="label">
+                    <label>Social Trackable</label>
+                    <sort_order>90</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <satrackpg translate="label comment">
+                            <label>Page ID</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </satrackpg>
+						<safbshare translate="label comment">
+                            <label>Facebook Share</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </safbshare>
+                        <satwfollow translate="label">
+                            <label>Twitter Share</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </satwfollow>
+						<sapintit translate="label">
+                            <label>Pinterest Share</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>9</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sapintit>
+						
+						<saemailshare translate="label">
+                            <label>Email Share</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </saemailshare>
+						
+						
+                        <safblike translate="label comment">
+                            <label>Facebook Connect Flag</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </safblike>
+                        <safifttwfollow translate="label">
+                            <label>Twitter Follow Flag</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </safifttwfollow>
+						<sainstagram translate="label">
+                            <label>Instagram Connect</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>13</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sainstagram>
+						
+						<sa_pin_follow translate="label">
+                            <label>Pinterest Follow</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>14</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sa_pin_follow>
+						
+                    </fields>
+                </satrackable>  
+<Loyaltysettings translate="label">
+		<label>Loyalty Settings</label>
+		<frontend_type>text</frontend_type>
+		<sort_order>60</sort_order>
+		<show_in_default>1</show_in_default>
+		<show_in_website>1</show_in_website>
+		<show_in_store>1</show_in_store>
+		<fields>
+			<DashboardPageid>
+				<label>Page ID</label>
+				<frontend_type>text</frontend_type>
+				<comment></comment>
+				<sort_order>2</sort_order>
+				<show_in_default>1</show_in_default>
+				<show_in_website>1</show_in_website>
+				<show_in_store>1</show_in_store>
+			</DashboardPageid>		
+			<AccessToken>
+				<label>Access Token</label>
+				<frontend_type>text</frontend_type>
+				<comment></comment>
+				<sort_order>3</sort_order>
+				<show_in_default>1</show_in_default>
+				<show_in_website>1</show_in_website>
+				<show_in_store>1</show_in_store>
+			</AccessToken>
+			<s15BaseUrl>
+				<label>API Base URL</label>
+				<frontend_type>text</frontend_type>
+				<comment></comment>
+				<sort_order>4</sort_order>
+				<show_in_default>1</show_in_default>
+				<show_in_website>1</show_in_website>
+				<show_in_store>1</show_in_store>
+			</s15BaseUrl>
+		</fields>
+	</Loyaltysettings>
+	<Loyaltyactionsettings translate="label">
+		<label>Loyalty Action Settings</label>
+		<frontend_type>text</frontend_type>
+		<sort_order>80</sort_order>
+		<show_in_default>1</show_in_default>
+		<show_in_website>1</show_in_website>
+		<show_in_store>1</show_in_store>
+		<fields>						
+			<CreateAccount>
+				<label>Create an account</label>
+				<frontend_type>text</frontend_type>
+				<comment></comment>
+				<sort_order>1</sort_order>
+				<show_in_default>1</show_in_default>
+				<show_in_website>1</show_in_website>
+				<show_in_store>1</show_in_store>
+			</CreateAccount>
+			<SignupNewsletter>
+				<label>Signup Newsletter</label>
+				<frontend_type>text</frontend_type>
+				<comment></comment>
+				<sort_order>2</sort_order>
+				<show_in_default>1</show_in_default>
+				<show_in_website>1</show_in_website>
+				<show_in_store>1</show_in_store>
+			</SignupNewsletter>
+		</fields>
+	</Loyaltyactionsettings> 
+	<sa_socialqa translate="label" >
+            <label>Social Questions and Answers</label>
+            <frontend_type>text</frontend_type>
+            <sort_order>120</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <fields>
+            <ApiURL>
+                            <label>Social Annex API URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </ApiURL>
+                        
+            </fields>
+            </sa_socialqa>
+			<enableModule translate="label">
+                    <label>Enable Social Annex Module</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>31</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enableRNR translate="label">
+                            <label>Enable Social Annex Review and Ratings</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment><![CDATA[Turn on to enable RNR module.]]></comment>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enableRNR>
+                    </fields>
+                </enableModule>
+                <saPageId translate="label">
+                    <label>Socialannex Page Ids</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>32</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <productPage translate="label">
+                            <label>Product Page Id</label>
+                            <comment>Enter Product Page Id which provided by Socialannex. Generally it should be 2</comment>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </productPage>
+                        <categoryPage translate="label">
+                            <label>Category Page Id</label>
+                            <comment>Enter Category Page Id which provided by Socialannex. Generally it should be 3</comment>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </categoryPage>
+                       
+                    </fields>
+                </saPageId>
+                <saRNR translate="label">
+                    <label>Reviews and Rating Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>33</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <customerName translate="label">
+                            <label>Socialannex Customer Name</label>
+                            <comment><![CDATA[i.e. yourcompany]]></comment>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </customerName>
+                        <hostDomain translate="label">
+                            <label>Host Domain</label>
+                            <comment><![CDATA[The domain from which your store will be hosted and Socialannex content will be injected. For example: yourdomain.com]]></comment>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </hostDomain>
+                        <ftpHostName translate="label">
+                            <label>Social Annex FTP Host Name</label>
+                            <comment><![CDATA[Usually either ftp.socialannex.com]]></comment>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </ftpHostName>
+                        <ftpUserName translate="label">
+                            <label>Social Annex FTP Username</label>
+                            <comment><![CDATA[Provided by our Implementation Engineer.]]></comment>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </ftpUserName>
+                        <ftpPassword translate="label">
+                            <label>Social Annex FTP Password</label>
+                            <comment><![CDATA[Provided by our Implementation Engineer.]]></comment>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </ftpPassword>
+                        <enableRatings translate="label">
+                            <label>Enable Social Annex Inline Ratings</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment><![CDATA[Turn on Inline Ratings. This will enable importing ratings feeds from the Socialannex FTP server and display them as inline star ratings in search results.]]></comment>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enableRatings>
+
+                        <feedPath translate="label">
+                            <label>Ratings Feed Path</label>
+                            <comment><![CDATA[Typically, this should be "feeds".]]></comment>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </feedPath>
+                        <feedFileName translate="label">
+                            <label>Ratings Feed Filename</label>
+                            <comment><![CDATA[Typically, this should be "(site_id)_ratings.csv".]]></comment>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </feedFileName>
+                        <rnrTemplateId translate="label">
+                            <label>Template Id</label>
+                            <frontend_type>text</frontend_type>
+                            <comment><![CDATA[Enter RNR Template Id provided by Social Annex.]]></comment>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </rnrTemplateId>
+                        <rnrCdnCSS translate="label">
+                            <label>Load RNR CSS From CDN</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment><![CDATA[Turn on for Load Css from CDN server.]]></comment>
+                            <sort_order>9</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </rnrCdnCSS>
+                    </fields>
+                </saRNR>
+            </groups>
+        </satools>
+
+                
+           
+    </sections>
+</config>

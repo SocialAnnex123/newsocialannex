@@ -1,0 +1,517 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     rwd_default
+ * @copyright   Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Product view template
+ *
+ * @see Mage_Catalog_Block_Product_View
+ * @see Mage_Review_Block_Product_View
+ */
+?>
+<?php $_helper = $this->helper('catalog/output'); ?>
+<?php
+
+$storeId = Mage::app()->getStore()->getStoreId();
+$cache = Mage::app()->getCache();
+$_helper = $this->helper('catalog/output');
+$_product = $this->getProduct();
+$productId = $_product->getId();
+$productSku = $_product->getSku();
+$saRnrHelperObj = Mage::helper('satools');
+
+$cacheKey = "view_page_".$storeId."_".$productId;
+$cacheJSONData = $cache->load($cacheKey);
+if (!$this->getRequest()->getParam('nocache') && isset($cacheJSONData) && $cacheJSONData != "") {
+    $pageData = json_decode($cacheJSONData, true);
+    $category = $pageData['category'];
+    $categoryId = $pageData['categoryId'];
+    $categoryUrlKey = $pageData['categoryUrlKey'];
+    $productUrlKey = $pageData['productUrlKey'];
+    $productName = $pageData['productName'];
+    $productCategoryType = $pageData['productCategoryType'];
+    $productDescription = $pageData['productDescription'];
+    $productBanner = $pageData['productBanner'];
+    $mediaUrl = $pageData['mediaUrl'];
+    $childProductsIds = $pageData['childProductsIds'];
+    //$jsonEncodedchildProductIds = $pageData['jsonEncodedchildProductIds'];
+    $productTypeId = $pageData['productTypeId'];
+    $productTop = $pageData['productTop'];
+    $shortDescription = $pageData['shortDescription'];
+    $media = $pageData['media'];
+    $jsonConfig = $pageData['jsonConfig'];
+    $alert_urls = $pageData['alert_urls'];
+    $product_type_data = $pageData['product_type_data'];
+    $extrahint = $pageData['extrahint'];
+    $other = $pageData['other'];
+    $categoryBackButton = $pageData['categoryBackButton'];
+    $categoryParentUrlKey = $pageData['categoryParentUrlKey'];
+} else {
+    $productUrlKey = $_product->getUrlPath();
+    $productName = $_helper->productAttribute($_product, $_product->getName(), 'name');
+    $productCategoryType = $_product->getAttributeText('product_type');
+    $productDescription = $_product->getDescription();
+    $mediaUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
+    $productCategoryTypes = '';
+    $attribute = Mage::getSingleton('eav/config')->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'product_type');
+    if ($attribute->usesSource()) {
+        $productCategoryTypes = $attribute->getSource()->getAllOptions(false);
+    }
+    $childProductsIds = '';
+    foreach ($productCategoryTypes as $key => $val) {
+        if ($val['label'] === $productCategoryType) {
+            $childProductsIds = $this->getProductData();
+        }
+    }
+    $productTypeId = $_product->getTypeId();
+    $productTop = $this->getLayout()->createBlock('cms/block')->setBlockId('product_top')->toHtml();
+    $category = Mage::registry('current_category');
+    if (isset($category)) {
+        $categoryId = $category->getId();
+        $categoryUrlKey = $category->getUrlKey();
+        $categoryBackButton = $category->getData('back_button');
+        $categoryParentUrlKey = $category->getParentCategory()->getUrlKey();
+    }
+    $jsonConfig = $this->getJsonConfig();
+    $media = $this->getChildHtml('media');
+    $shortDescription = $_product->getShortDescription();
+    $productBanner = $_product->getProductBanner();
+    $alert_urls = $this->getChildHtml('alert_urls');
+    $product_type_data = $this->getChildHtml('product_type_data');
+    $extrahint = $this->getChildHtml('extrahint');
+    $other = $this->getChildHtml('other');
+
+    $pageData = array(
+        "categoryId" => $categoryId,
+        "categoryUrlKey" => $categoryUrlKey,
+        "productUrlKey" => $productUrlKey,
+        "productName" => $productName,
+        "productCategoryType" => $productCategoryType,
+        "productDescription" => $productDescription,
+        "mediaUrl" => $mediaUrl,
+        "childProductsIds" => $childProductsIds,
+        //"jsonEncodedchildProductIds" => json_encode($childProductsIds),
+        "productTypeId" => $productTypeId,
+        "productTop" => $productTop,
+        "shortDescription" => $shortDescription,
+        "productBanner" => $productBanner,
+        "media" => $media,
+        "jsonConfig" => $jsonConfig,
+        "alert_urls" => $alert_urls,
+        "product_type_data" => $product_type_data,
+        "extrahint" => $extrahint,
+        "other" => $other,
+        "categoryBackButton" => $categoryBackButton,
+        "categoryParentUrlKey" => $categoryParentUrlKey,
+    );
+
+    $jsonPageData = json_encode($pageData);
+    $cache->save($jsonPageData, $cacheKey, array("view_page_data"));
+}
+?>
+<script type="text/javascript">
+    var optionsPrice = new Product.OptionsPrice(<?php echo $jsonConfig ?>);
+    plae.controllers.product = _.extend(plae.controllers.product || {},
+        {
+            optionsPrice: optionsPrice,
+            productData: <?php echo json_encode($childProductsIds); ?>,
+            categoryId: <?php echo json_encode($categoryId); ?>,
+            categoryUrlKey: <?php echo json_encode($categoryUrlKey); ?>,
+            categoryBackButton: <?php echo json_encode($categoryBackButton); ?>,
+            categoryParentUrlKey: <?php echo json_encode($categoryParentUrlKey); ?>
+        });
+</script>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->toHtml() ?></div>
+<div class="product-view <?php if ($_product->isVirtual()) echo "virtual-product";?> <?php echo "$productCategoryType";?>-product"
+     data-productid="<?php echo $productId?>"
+     data-productname="<?php echo $productName?>"
+     data-productsku="<?php echo $productSku ?>">
+    <div class="product-essential container-fluid">
+        <form action="<?php echo $this->getSubmitUrl($_product, array('_secure' => $this->_isSecure())) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+            <?php echo $this->getBlockHtml('formkey') ?>
+            <div class="no-display">
+                <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+                <input type="hidden" name="related_product" id="related-products-field" value="" />
+            </div>
+            <div class="main-row row">
+                <div class="product-img-box col-md-6">
+                    <?php echo $this->getChildHtml('media') ?>
+                    <div class="special-description"></div>
+                </div>
+
+                <div class="product-shop col-md-6">
+                    <div class="row product">
+                        <div class="product-name col-xs-12">
+                            <p class="h3"><?php echo $productName ?></p>
+                            <p class="h4 color"></p>
+                        </div>
+                        <div class="section product-info col-xs-12">
+                            <div class="h4 price-info col">
+                                <?php echo $this->getPriceHtml($_product); ?>
+                                <?php echo $this->getChildHtml('bundle_prices') ?>
+                                <?php echo $this->getTierPriceHtml() ?>
+<div id="sa_share_btns">
+<div id="socialannex-fbshare"></div> 
+<div id="socialannex-twfollow"></div> 
+<div id="sa_pinit"></div> 
+<div id="sa_email_share"></div></div> 
+
+
+
+
+                            </div>
+                            <div class="reviews-stars col" id="product-reviews-stars">
+                                <?php 
+
+echo $saRnrHelperObj->getAverageRating(array('productId'=>$_product->getId()));
+echo $productReviewData['reviewCount'];
+echo $saRnrHelperObj->loadsauniversal();
+//$this->helper('yotpo')->showBottomline($this, $_product); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section description <?php if ($productCategoryType != "downloadable"): ?>hidden-sm hidden-xs<?php endif;?>">
+                        <div class="description-wrapper"><?php echo $_helper->productAttribute($_product, nl2br($_product->getDescription()), 'description') ?></div>
+                    </div>
+                    <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+                        <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
+                    <?php endif;?>
+                    <div class="extra-info">
+                        <!--?php echo $this->getReviewsSummaryHtml($_product, 'default', false)?-->
+                        <!--?php echo $this->getChildHtml('product_type_availability'); ?-->
+                    </div>
+
+                    <?php if (!$_product->isVirtual()) :?>
+                        <div id="section-shipping" class="shipping">
+                            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('freeshipping_product')->toHtml() ?>
+                            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('freeshipping_product_adult')->toHtml() ?>
+                        </div>
+                    <?php endif; ?>
+
+
+                    <div id="section-level-up" class="section-level-up row">
+                        <?php $productName = $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+                        <?php $PinShareText= $_product->getPinterestshare(); ?>
+                        <?php $FBShareText= $_product->getFacebookshare(); ?>
+                        <?php $TWShareText= $_product->getTwittershare(); ?>
+                        <?php $productUrl = $_helper->productAttribute($_product, $_product->getProductUrl(), 'product_url'); ?>
+                        <?php $productImage = $_product->getImageUrl() ?>
+                        <div class="level-up col">
+                            <?php $customerLoggedIn = Mage::getSingleton('customer/session')->isLoggedIn();
+                            if($customerLoggedIn) { ?>
+                                <div class="social-dropdown-product level-up">
+                                    <div class="level-up icon large"></div>
+                                    <span class="social-share-txt name">LEVEL UP | </span><span class="social-share-txt msg">earn tokens for sharing</span>
+                                </div>
+                                <?php
+                            } else{
+                               echo $this->getLayout()
+                                    ->createBlock('cms/block')
+                                    ->setBlockId('product_page_social_dropdown')->toHtml();
+                            } ?>
+                        </div>
+                        <?php echo $this->getChildHtml('product_page_social_icons'); ?>
+                    </div>
+                </div>
+            </div>
+
+            <?php if ($productCategoryType != "giftcard") :?>
+                <div class="features-row row section">
+                    <div class="features-column col-md-6">
+                        <div id="features-list-anchor" class="features row"></div>
+                        <div class="short-description">
+                            <?php echo $shortDescription; ?>
+
+                            <?php $productStyleName = $_product->getAttributeText('style_name'); ?>
+                            <?php if ($productStyleName) {
+                                // learn more link
+                                $productStyleName = str_replace(' ', '-', strtolower($productStyleName));
+                                $featuresModal = $this->getLayout()->createBlock('cms/block')->setBlockId('design-modal-' . $productStyleName)->toHtml();
+                                if ($featuresModal) {
+                                    echo '<a href="#design-' . $productStyleName . '" class="green right modalLink">learn more</a>';
+                                }
+                            } ?>
+
+                        </div>
+                        <div id="feature-icons-wrapper" class="features-icons row"></div>
+                    </div>
+                    <div class="features-others-column col-md-6 hidden">
+                        <div id="features-materials" class="features row">
+                            <h4>Material</h4>
+                        </div>
+                        <div id="features-washing" class="features washing row">
+                            <h4>Washing Instructions</h4>
+                        </div>
+                        <div id="features-growth-spurt-guarantee" class="features gsg row">
+                            <h4>Growth Spurt Guarantee<sup class="reg">&reg;</sup></h4>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?php echo $this->getChildHtml('alert_urls') ?>
+
+            <?php echo $this->getChildHtml('other');?>
+
+            <div class="add-to-cart-wrapper">
+                <?php echo $this->getChildHtml('product_type_data') ?>
+                <?php echo $this->getChildHtml('extrahint') ?>
+
+                <?php if (!$this->hasOptions()):?>
+                    <div class="add-to-box">
+                        <?php if($_product->isSaleable()): ?>
+                            <?php echo $this->getChildHtml('addtocart') ?>
+                            <?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
+                                <span class="or"><?php echo $this->__('OR') ?></span>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        <?php echo $this->getChildHtml('addto') ?>
+                        <?php echo $this->getChildHtml('sharing') ?>
+                    </div>
+                    <?php echo $this->getChildHtml('extra_buttons') ?>
+                <?php elseif (!$_product->isSaleable()): ?>
+                    <div class="add-to-box">
+                        <?php echo $this->getChildHtml('addto') ?>
+                        <?php echo $this->getChildHtml('sharing') ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+
+            <?php echo $this->getChildHtml('related_products') ?>
+
+            <div class="clearer"></div>
+        </form>
+        <script type="text/javascript">
+        //<![CDATA[
+            var productAddToCartForm = new VarienForm('product_addtocart_form');
+            productAddToCartForm.submit = function(button, url) {
+                if (this.validator.validate()) {
+                    var form = this.form;
+                    var oldUrl = form.action;
+
+                    if (url) {
+                       form.action = url;
+                    }
+                    var e = null;
+                    try {
+                        this.form.submit();
+                    } catch (e) {
+                    }
+                    this.form.action = oldUrl;
+                    if (e) {
+                        throw e;
+                    }
+
+                    if (button && button != 'undefined') {
+                        button.disabled = true;
+                    }
+                }
+            }.bind(productAddToCartForm);
+
+            productAddToCartForm.submitLight = function(button, url){
+                if(this.validator) {
+                    var nv = Validation.methods;
+                    delete Validation.methods['required-entry'];
+                    delete Validation.methods['validate-one-required'];
+                    delete Validation.methods['validate-one-required-by-name'];
+                    // Remove custom datetime validators
+                    for (var methodName in Validation.methods) {
+                        if (methodName.match(/^validate-datetime-.*/i)) {
+                            delete Validation.methods[methodName];
+                        }
+                    }
+
+                    if (this.validator.validate()) {
+                        if (url) {
+                            this.form.action = url;
+                        }
+                        this.form.submit();
+                    }
+                    Object.extend(Validation.methods, nv);
+                }
+            }.bind(productAddToCartForm);
+        //]]>
+        </script>
+    </div>
+ <!-- Socialannex Q&A AND R&R Code goes here -->
+	<div class="clearfix"></div>
+	<style>
+#sa_s23_qa_count p{margin:0;}
+span #sa_s23_qa_count{display: inline-table;}
+	.sa_tab_container {
+	width: 100%;
+	margin: 0 auto;
+	}
+
+	.sa_tab_container input, section {
+	clear: both;
+	padding-top: 10px;
+	display: none;
+	}
+
+	.sa_tab_container label {
+	font-weight: 700;
+    font-size: 18px;
+    display: block;
+    float: left;
+    width: 50%;
+    padding: 1.5em;
+    color: #757575;
+    border-bottom: 2px solid #ebebeb;
+    border-top: 2px solid #ebebeb;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    background: transparent;
+	}
+
+	#sa_tab1:checked ~ #sa_content1,
+	#sa_tab2:checked ~ #sa_content2 {
+	display: block;
+	padding: 20px;
+	background: #fff;
+	color: #999;
+	border-bottom: 2px solid #f0f0f0;
+	}
+
+	.sa_tab_container .sa-tab-content p,
+	.sa_tab_container .sa-tab-content h3 {
+	-webkit-animation: fadeInScale 0.7s ease-in-out;
+	-moz-animation: fadeInScale 0.7s ease-in-out;
+	animation: fadeInScale 0.7s ease-in-out;
+	}
+
+	.sa_tab_container .sa-tab-content h3  {
+	text-align: center;
+	}
+
+	.sa_tab_container [id^="sa_tab"]:checked + label {
+	background: #fff;
+    color: #25b35a;
+	}
+
+	.sa_tab_container [id^="sa_tab"]:checked + label .fa {
+	color: #0CE;
+	}
+
+	.sa_tab_container label .fa {
+	font-size: 1.3em;
+	margin: 0 0.4em 0 0;
+	}
+	
+
+	/*Media query*/
+	@media only screen and (max-width: 930px) {
+	.sa_tab_container label span {
+	font-size: 14px;
+	}
+	.sa_tab_container label .fa {
+	font-size: 14px;
+	}
+	}
+
+	@media only screen and (max-width: 768px) {
+	
+	.sa_tab_container label .fa {
+	font-size: 16px;
+	}
+
+	.sa_tab_container {
+	width: 98%;
+	}
+	}
+	</style>
+	<div class="sa_tab_container">
+<?php $reviewData = $saRnrHelperObj->getproductreview(array("productId"=>$_product->getId()));?>
+			<input id="sa_tab1" type="radio" name="sa_tabs" checked>
+			<label for="sa_tab1"><span>REVIEWS 
+<span id="sa_s28_rnr_count">(<?php echo $reviewData["reviewCount"];?>)</span></span></label>
+
+			<input id="sa_tab2" type="radio" name="sa_tabs">
+			<label for="sa_tab2"><span>QUESTIONS <span id="sa_s23_qa_count"></span></span></label>
+
+			<section id="sa_content1" class="sa-tab-content">
+				<?php 
+				echo $reviewData["reviewHtml"];
+				
+				?>
+			</section>
+
+			<section id="sa_content2" class="sa-tab-content">
+				<?php
+				$saQaHelper= Mage::helper('socialqa');
+				$saQaScript=$saQaHelper->loadSocialQA();
+				echo $saQaScript;
+				?>
+			</section>
+
+	</div>
+<?php echo $saRnrHelperObj->loadsauniversal();?>
+	<!-- Socialannex Q&A AND R&R Code ends here --> 
+
+    <?php echo $this->getChildHtml('upsell_products') ?>
+    <?php echo $this->getChildHtml('product_additional_data') ?>
+
+    <!-- StoryBox module -->
+    <?php
+    $isStoryBoxEnabled = $_product->getData('storybox_enabled');
+    if ($isStoryBoxEnabled) {
+        echo '<h3 id="product-storybox-header">A million ways to #goplae</h3>';
+        echo '<div class="storybox-share-button"><a class="button" href="javascript:;" id="VGRecordButton" onclick="VG.openRecorder();">share yours!</a></div>';
+        echo '<div id="productStoryBox"></div>';
+    }
+    ?>
+
+    <div class="row" id="reviews-row">
+        <div class="col-sm-12 reviews" id="product-reviews">
+
+            <?php //$this->helper('yotpo')->showWidget($this, $_product); ?>
+        </div>
+    </div>
+
+    <? if ($featuresModal): ?>
+        <!-- Design modal -->
+        <div id="design-<?php echo $productStyleName; ?>" class="modal design basic" style="top:0; left:0;">
+            <div class="content">
+                <a href="#" class="modal-close closing"><i class="fa fa-times fa-lg"></i></a>
+
+                <div class="modal-top">
+                    <h1>design inspired by play</h1>
+                </div>
+                <div class="modal-main">
+                    <?php echo $featuresModal ?>
+                </div>
+            </div>
+        </div>
+    <? endif; ?>
+</div>
+
+<script>
+    jQuery(document).ready(function() {
+        <?php if (!($_product->isVirtual())):?>
+        plae.controllers.product.page.init();
+        <?php endif; ?>
+    });
+</script>

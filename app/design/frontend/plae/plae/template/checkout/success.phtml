@@ -1,0 +1,130 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+$orderId = Mage::getSingleton('checkout/session')->getLastRealOrderId();
+$order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
+$helper = Mage::helper('ampreorder');
+$isPreorder = '';
+if( $order->getId() ) {
+    foreach( $order->getAllItems() as $item ) {
+        $isPreorder = $helper->getOrderItemIsPreorderFlag($item->getId());
+        if($isPreorder == '1'){
+            break;
+        }
+
+    }
+}
+
+?>
+
+<div class="page-title">
+    <h1><?php
+        if($isPreorder == '1'){
+            echo $this->__('THANK YOU FOR YOUR ORDER!');
+        }else{
+            echo $this->__('Your order has been received.');
+        }
+        ?>
+    </h1>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+    <?php
+    if($isPreorder == '1'){
+        echo '<h3 class="sub-title">';
+        echo $this->__('You\'ve successfully reserved your selections for the first limited production run of PLAE adult shoes! We\'ll keep you updated on your future delivery status, so stay tuned for more.');
+        echo '</h3>';
+    }else{
+        echo '<h2 class="sub-title a-center">';
+        echo $this->__('Thank you for your purchase!');
+        echo '</h2>';
+    }
+    ?> 
+
+
+<?php if ($this->getOrderId()):?>
+<?php if ($this->getCanViewOrder()) :?>
+    <p><?php echo $this->__('Your order # is: %s.', sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getViewOrderUrl()), $this->escapeHtml($this->getOrderId()))) ?></p>
+<?php  else :?>
+    <h3 class="a-center"><?php echo $this->__('Your order # is: %s.', $this->escapeHtml($this->getOrderId())) ?></h3>
+<?php endif;?>
+    <p class="a-center">
+        <?php
+        if($isPreorder != '1'){
+            echo $this->__('You will receive an order confirmation email with details of your order and a link to track its progress.');
+        }
+        ?>
+    </p>
+<?php if ($this->getCanViewOrder() && $this->getCanPrintOrder()) :?>
+    <p>
+        <?php echo $this->__('Click <a href="%s" onclick="this.target=\'_blank\'"><u>here to print</u></a> a copy of your order confirmation.', $this->getPrintUrl()) ?>
+        <?php echo $this->getChildHtml() ?>
+    </p>
+<?php endif;?>
+<?php endif;?>
+
+<?php
+if($isPreorder != '1') {
+    echo $this->getLayout()->createBlock('cms/block')->setBlockId('birthday_club_button')->toHtml();
+}
+?>
+
+<?php
+//if($isPreorder != '1') {
+//    echo $this->getLayout()->createBlock('cms/block')->setBlockId('check_out_adult')->toHtml();
+//}
+?>
+
+<?php if ($this->getAgreementRefId()): ?>
+    <p><?php echo $this->__('Your billing agreement # is: %s.', sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getAgreementUrl()), $this->escapeHtml($this->getAgreementRefId())))?></p>
+<?php endif;?>
+
+<?php if ($profiles = $this->getRecurringProfiles()):?>
+<p><?php echo $this->__('Your recurring payment profiles:'); ?></p>
+<ul class="disc">
+<?php foreach($profiles as $profile):?>
+<?php $profileIdHtml = ($this->getCanViewProfiles() ? sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getProfileUrl($profile)), $this->escapeHtml($this->getObjectData($profile, 'reference_id'))) : $this->escapeHtml($this->getObjectData($profile, 'reference_id')));?>
+    <li><?php echo $this->__('Payment profile # %s: "%s".', $profileIdHtml, $this->escapeHtml($this->getObjectData($profile, 'schedule_description')))?></li>
+<?php endforeach;?>
+</ul>
+<?php endif;?>
+
+<?php
+
+    $_customerId = Mage::getSingleton('customer/session')->getCustomerId();
+    $lastOrderId = Mage::getSingleton('checkout/session')->getLastOrderId();
+    $order = Mage::getSingleton('sales/order'); 
+    $order->load($lastOrderId);
+    $_totalData =$order->getData(); 
+    $_sub = $_totalData['subtotal'];//USD ==> global_currency_code,base_currency_code order_currency_code
+?>
+
+<?php
+echo $this->getLayout()->createBlock('core/template')->setTemplate('socialannex/redeempoints.phtml')->toHtml();
+$saTools= Mage::helper('satools');
+echo $saTools->saSaleTrack();
+?>

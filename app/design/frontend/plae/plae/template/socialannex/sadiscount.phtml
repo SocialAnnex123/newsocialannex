@@ -1,0 +1,121 @@
+<?php
+ $isLoogedIn = Mage::getSingleton('customer/session')->isLoggedIn();
+if ($isLoogedIn) {
+    $session = Mage::getSingleton('customer/session')->getCustomer();
+    $email = $session->getEmail();
+    // create curl resource 
+    $ch = curl_init(); 
+    $getUserDetailUrl = $this->getUrl('loyalty/index/userdetail/email/'.$email);
+    curl_setopt($ch, CURLOPT_URL, $getUserDetailUrl); 
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $output = curl_exec($ch); 
+    curl_close($ch); 
+    $userData = json_decode($output,true);
+    if($userData['error_code']=='0'){
+        $availablePoints = $userData['data']['available_points'];
+    } else {
+        $availablePoints = 0;
+    }
+    
+    $quote = Mage::getModel('checkout/session')->getQuote();
+    $quoteData= $quote->getData();
+    $grandTotal=$quoteData['subtotal'];
+       
+    $discountAmount = Mage::getSingleton('core/session')->getData('saDiscountAmount');
+    $discountPoints = $discountAmount * 100;
+    $grandTotalPoints = $grandTotal * 100;
+    if($discountAmount){
+        
+        if($discountPoints==$grandTotalPoints){
+            $redeemablePoints = $discountPoints;
+            $remove = 1;
+        } else if($discountPoints<$grandTotalPoints && $grandTotalPoints<=$availablePoints) {
+            $redeemablePoints = $grandTotalPoints;
+            $remove = 0;
+        } else if($discountPoints<$grandTotalPoints && $grandTotalPoints>$availablePoints){
+            $redeemablePoints = $discountPoints;
+            $remove = 1;
+        } else if($discountPoints>$grandTotalPoints){
+            $redeemablePoints = $grandTotalPoints;
+            $remove = 0;
+        }
+    } else {
+        if($grandTotalPoints<=$availablePoints){
+            $redeemablePoints = $grandTotalPoints;
+        } else {
+            $redeemablePoints = $availablePoints;
+        }
+        $remove = 0;
+    }
+    
+    	
+    if($availablePoints>0) {
+    ?>
+	
+<div id="sa-discount">
+	<div class="discount">
+	<div class="discount-form">
+	    <div class="buttons-set">
+		<div>Available Tokens: <?php echo $redeemablePoints; ?> </div>
+		<?php
+			if($remove==1) {
+			?>
+					<button type="button" title="<?php echo $this->__('Remove Token') ?>" class="button" onclick="sadiscountForm()" value="<?php echo $this->__('Remove Token') ?>" ><span><span><?php echo $this->__('Remove Token') ?></span></span></button>
+					<input type="hidden" id="sa_submit" name="sa_submit" value="removeToken"/>
+
+			<?php
+			} else {
+			?>
+					<button type="button" title="<?php echo $this->__('Spend Token') ?>" class="button" onclick="sadiscountForm()" value="<?php echo $this->__('Spend Token') ?>"><span><span><?php echo $this->__('Spend Token') ?></span></span></button>
+                    <input type="hidden" id="sa_submit" name="sa_submit" value="addToken"/>
+			<?php
+			}
+		?>
+	    </div>
+	</div>
+	</div>
+</div>
+	<script type="text/javascript">
+        var saFormUrl = "<?php echo $this->getUrl('loyalty/index/discount') ?>";
+        var checkoutUrl = "<?php echo $this->getRequest()->getModuleName() ?>";
+        function sadiscountForm() {
+        var paramVal = document.getElementById('sa_submit').value;
+        var request = new Ajax.Request(
+            saFormUrl,
+            {
+                method: 'post',
+                parameters: { sa_submit: paramVal},
+                onSuccess: function(data) {
+                    if(checkoutUrl=='onestepcheckout'){
+                        save_shipping_method(shipping_method_url,0,update_payment_review);
+                        saDiscountTemplate();
+                    } else {
+                        window.location.reload();
+                    }
+                }
+            });
+        }
+        
+        function saDiscountTemplate(){
+            var saDiscountUrl = "<?php echo $this->getUrl('loyalty/index/ajaxDiscount') ?>";
+            var request = new Ajax.Request(
+            saDiscountUrl,
+            {
+                method: 'get',
+                parameters: null,
+                onSuccess: function(data) {
+                    document.getElementById("sa-discount").innerHTML = data.responseText;
+                }
+            });
+            
+        }
+        
+	
+	</script>
+    <?php
+    }
+} 
+?>
+
+

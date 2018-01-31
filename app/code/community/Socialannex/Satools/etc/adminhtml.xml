@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config>
+ <acl>
+  <resources>
+   <admin>
+    <children>
+     <system>
+      <children>
+       <config>
+        <children>
+         <satools translate="title">
+          <title>SA Tools</title>
+         </satools>
+        </children>
+       </config>
+      </children>
+     </system>
+    </children>
+   </admin>
+  </resources>
+ </acl>
+</config>

@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<layout>
+
+    <rewardsref_customer_contacts>
+        <!-- reference name="contacts">
+            <block type="rewardsref/customer/referral_contacts" name="plaxo" template="rewardsref/customer/referral/plaxo.phtml" />
+       </reference -->
+    </rewardsref_customer_contacts>
+
+    <rewardsref_customer_index>
+        <update handle="customer_account"/>
+        <reference name="head">
+            <action method="setTitle" translate="title"><title>My Referrals</title></action>
+            <action method="addCss" ifconfig="rewards/referral/referral_show">
+                <stylesheet>css/rewardsref/my_referrals.css</stylesheet>
+            </action>
+            <!-- action method="addJs" ifconfig="rewards/referral/referral_show">
+                <script>tbt/rewardsref/plaxo.js</script>
+            </action -->
+            <action method="addCss" ifconfig="rewards/referral/referral_show">
+                <stylesheet>css/rewardsref/plaxo.css</stylesheet>
+            </action>
+        </reference>
+        <reference name="content">
+                                <block type="rewardsref/customer_referral_abstract" name="refer_form_multi" template="rewardsref/customer/referral/invite/plaxo/referral_form.phtml" />
+                        
+        </reference>
+    </rewardsref_customer_index>
+
+
+    <customer_account_create>
+        <reference name="customer_form_register">
+            <block type="rewardsref/field_register" name="rewards_referral" template="rewardsref/customer/register/fieldset.phtml" />
+        </reference>
+    </customer_account_create>
+
+    <checkout_onepage_index>
+        <reference name="checkout.onepage.billing">
+            <block type="rewardsref/field_checkout" name="rewards_referral_field" template="rewardsref/onepage/field.phtml" />
+        </reference>
+    </checkout_onepage_index>
+
+    <onestepcheckout_index_index>
+        <reference name="head">
+            <action method="addCss" ifconfig="rewards/autointegration/onepage_billing_register_referral_field">
+                <stylesheet>css/rewardsref/my_referrals.css</stylesheet>
+            </action>
+        </reference>
+        <reference name="onestepcheckout_billing">
+            <block type="rewardsref/field_checkout" name="rewards_referral_field" as="referralcode" template="rewardsref/onepage/field.phtml" />
+        </reference>
+    </onestepcheckout_index_index>
+
+    <onestepcheckout_index_index_flat_30columns>
+        <reference name="onestepcheckout_billing">
+            <block type="rewardsref/field_checkout" name="rewards_referral_field" as="referralcode" template="rewardsref/onepage/field.phtml" />
+        </reference>
+    </onestepcheckout_index_index_flat_30columns>
+
+    <!-- BEGIN autointegrated content for My Referrals in Customer My Acount -->
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <block type="rewards/layout_helper" name="rewards.helper.link.my.referrals">
+                <action method="addLinkToParentIfConfig">
+                    <ifconfig>
+                        <configRewardsRefIsOutputEnabled><![CDATA[!advanced/modules_disable_output/TBT_RewardsReferral]]></configRewardsRefIsOutputEnabled>
+                        <configRewardsRefShow><![CDATA[rewards/referral/referral_show]]></configRewardsRefShow>
+                    </ifconfig>
+                    <name><![CDATA[rewardsref]]></name>
+                    <path><![CDATA[rewardsref/customer/index/]]></path>
+                    <label><![CDATA[My Referrals]]></label>
+                </action>
+            </block>
+        </reference>
+    </customer_account>
+    <!-- END autointegrated content for My Referrals in Customer My Acount -->
+
+</layout>

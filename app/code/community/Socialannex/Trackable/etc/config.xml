@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Socialannex_Trackable>
+            <version>1.0</version>
+        </Socialannex_Trackable>
+    </modules>
+    <global> 
+        <helpers>
+            <trackable>
+                <class>Socialannex_Trackable_Helper</class>
+            </trackable>
+        </helpers>
+        <blocks>
+             <trackable>
+                <class>Socialannex_Trackable_Block</class>
+             </trackable>
+        </blocks>
+    </global>
+    <frontend>
+        <routers>
+            <trackable>
+                <use>standard</use>
+                <args>
+                    <module>Socialannex_Trackable</module>
+                    <frontName>trackable</frontName>
+                </args>
+            </trackable>
+        </routers>
+    </frontend>
+</config>

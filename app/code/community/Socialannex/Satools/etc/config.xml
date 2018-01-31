@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Socialannex_Satools>
+            <version>1.0</version>
+        </Socialannex_Satools>
+    </modules>
+    <global>
+        <helpers>
+            <satools>
+                <class>Socialannex_Satools_Helper</class>
+            </satools>
+        </helpers>
+        <blocks>
+            <satools>
+                <class>Socialannex_Satools_Block</class>
+            </satools>
+        </blocks>
+        <models>
+            <satools>
+                <class>Socialannex_Satools_Model</class>
+            </satools>
+        </models>
+    </global>
+    <default>
+        <satools>
+            <general>
+                <text_field backend_model="adminhtml/system_config_backend_encrypted" />
+            </general>
+        </satools>
+    </default>
+    <frontend>
+	 <product>
+            <collection>
+                <attributes>
+                    <sa_average_rating_html />
+                    <sa_review_count />
+                    <sa_average_rating />
+                </attributes>
+            </collection>
+        </product>
+        <routers>
+            <satools>
+                <use>standard</use>
+                <args>
+                    <module>Socialannex_Satools</module>
+                    <frontName>satools</frontName>
+                </args>
+            </satools>
+        </routers>
+    </frontend>
+	 <crontab>
+        <jobs>
+            <socialannex_review_ratings>
+                <schedule>
+                    <cron_expr>*/5 * * * *</cron_expr><!-- Every 5 min -->
+                </schedule>
+                <run>
+                    <model>satools/reviewmodel::getReverseFeed</model>
+                </run>
+            </socialannex_review_ratings>
+
+        </jobs>
+    </crontab>
+</config>

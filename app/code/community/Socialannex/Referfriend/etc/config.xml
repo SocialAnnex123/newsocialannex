@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+ <modules>
+  <Socialannex_Referfriend>
+   <version>1.0</version>
+  </Socialannex_Referfriend>
+ </modules>
+ <global>
+  <helpers>
+   <referfriend>
+    <class>Socialannex_Referfriend_Helper</class>
+   </referfriend>
+  </helpers>
+  <blocks>
+   <referfriend>
+    <class>Socialannex_Referfriend_Block</class>
+   </referfriend>
+  </blocks>
+  <models>
+            <referfriend>
+                <class>Socialannex_Referfriend_Model</class>
+            </referfriend>
+        </models>
+ </global>
+ <default>
+  <referfriend>
+   <general>
+    <text_field backend_model="adminhtml/system_config_backend_encrypted" />
+   </general>
+  </referfriend>
+ </default>
+ <frontend>
+  <routers>
+   <referfriend>
+    <use>standard</use>
+    <args>
+     <module>Socialannex_Referfriend</module>
+     <frontName>referfriend</frontName>
+    </args>
+   </referfriend>
+  </routers>
+ </frontend>
+</config>

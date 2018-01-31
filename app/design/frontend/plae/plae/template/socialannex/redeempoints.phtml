@@ -1,0 +1,23 @@
+<?php
+//unset session for redeem discount & give call to claim API
+$isLoogedIn = Mage::getSingleton('customer/session')->isLoggedIn();
+if ($isLoogedIn) {
+    $session = Mage::getSingleton('customer/session')->getCustomer();
+    $email = $session->getEmail();
+    $discountAmount = Mage::getSingleton('core/session')->getData('saDiscountAmount');
+    $claimPoints = $discountAmount * 100;
+    if($claimPoints>0){
+        // create curl resource 
+        $ch = curl_init(); 
+        $claimPointsUrl = $this->getUrl('loyalty/index/redeem/email/'.$email.'/points/'.$claimPoints.'/reason/purchase');
+        curl_setopt($ch, CURLOPT_URL, $claimPointsUrl); 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $output = curl_exec($ch); 
+        curl_close($ch); 
+    }
+    Mage::getSingleton('core/session')->setData('saDiscountAmount', '');
+}
+?>
+
+

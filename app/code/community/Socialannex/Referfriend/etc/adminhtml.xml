@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config>
+ <acl>
+  <resources>
+   <admin>
+    <children>
+     <system>
+      <children>
+       <config>
+        <children>
+         <referfriend translate="title">
+          <title>Refer A Friend</title>
+         </referfriend>
+        </children>
+       </config>
+      </children>
+     </system>
+    </children>
+   </admin>
+  </resources>
+ </acl>
+</config>

@@ -1,0 +1,7 @@
+<?php
+//echo “hi i am dashboard”;die;
+$saHelper= Mage::helper('loyalty');
+$saPageid= Mage::getStoreConfig("satools/Loyaltysettings/DashboardPageid");
+$saUniversal=$saHelper->loadSaLoyaltyDashboard($saPageid);
+echo $saUniversal;
+?>
